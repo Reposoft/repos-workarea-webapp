@@ -46,6 +46,16 @@
 			<version>1.2.1-incubating</version>
 		</dependency>
 		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-multibindings</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.wink</groupId>
 			<artifactId>wink-guice-server</artifactId>
 			<version>1.2.1-incubating</version>
