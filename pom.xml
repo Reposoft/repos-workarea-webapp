@@ -41,11 +41,6 @@
 			<version>1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.wink</groupId>
-			<artifactId>wink-server</artifactId>
-			<version>1.2.1-incubating</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<version>3.0</version>
@@ -73,7 +68,7 @@
 		<dependency>
 			<groupId>se.simonsoft</groupId>
 			<artifactId>cms-backend-svnkit</artifactId>
-			<version>1-SNAPSHOT</version>
+			<version>0.8</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
