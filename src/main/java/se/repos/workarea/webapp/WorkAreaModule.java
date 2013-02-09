@@ -7,6 +7,7 @@ import java.io.File;
 
 import se.repos.authproxy.ReposCurrentUser;
 import se.repos.backend.file.CmsItemLookupFilesystem;
+import se.repos.backend.file.WorkAreaCmsItemAdditionalOperations;
 import se.repos.lgr.Lgr;
 import se.repos.lgr.LgrFactory;
 import se.repos.workarea.WorkAreaConfiguration;
@@ -39,9 +40,15 @@ public class WorkAreaModule extends AbstractModule {
 		
 		CmsRepository testrepo = new CmsRepository("http://localhost/svn/testrepo");
 
-		File testrepoFilesystem = new File("/tmp/repos-testrepo");
-		cmsItemLookupBinder.addBinding(testrepo).toInstance(new CmsItemLookupFilesystem(testrepoFilesystem));
+		// original //File testrepoFilesystemRoot = new File("/tmp/repos-testrepo");
+		// current test folder
+		File testrepoFilesystemRoot = new File("tmp/repos-test/");
+		CmsItemLookup testrepoFilesystemLookup = new CmsItemLookupFilesystem(testrepoFilesystemRoot);
+		cmsItemLookupBinder.addBinding(testrepo).toInstance(testrepoFilesystemLookup);
 		
+		// we don't have per-repository binding now so we inject our sample repo as the only lookup
+		bind(CmsItemLookup.class).toInstance(testrepoFilesystemLookup);
+		bind(WorkAreaCmsItemAdditionalOperations.class);
 	}
 
 }
