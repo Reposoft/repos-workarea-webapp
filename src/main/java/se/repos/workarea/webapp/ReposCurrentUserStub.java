@@ -14,8 +14,7 @@ public class ReposCurrentUserStub implements ReposCurrentUser {
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
+		return "singleuser";
 	}
 	
 	@Override

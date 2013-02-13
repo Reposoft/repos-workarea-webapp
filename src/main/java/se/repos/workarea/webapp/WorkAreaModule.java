@@ -6,18 +6,20 @@ package se.repos.workarea.webapp;
 import java.io.File;
 
 import se.repos.authproxy.ReposCurrentUser;
+import se.repos.backend.file.CmsCommitFilesystem;
 import se.repos.backend.file.CmsItemLookupFilesystem;
-import se.repos.backend.file.WorkAreaCmsItemAdditionalOperations;
 import se.repos.lgr.Lgr;
 import se.repos.lgr.LgrFactory;
 import se.repos.workarea.WorkAreaConfiguration;
 import se.repos.workarea.WorkAreaConfigurationPerUserImpl;
 import se.repos.workarea.rest.WorkAreaResource;
 import se.simonsoft.cms.item.CmsRepository;
+import se.simonsoft.cms.item.commit.CmsCommit;
 import se.simonsoft.cms.item.info.CmsItemLookup;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.MapBinder;
+import com.google.inject.name.Names;
 
 public class WorkAreaModule extends AbstractModule {
 
@@ -39,16 +41,18 @@ public class WorkAreaModule extends AbstractModule {
 			= MapBinder.newMapBinder(binder(), CmsRepository.class, CmsItemLookup.class);
 		
 		CmsRepository testrepo = new CmsRepository("http://localhost/svn/testrepo");
-
 		// original //File testrepoFilesystemRoot = new File("/tmp/repos-testrepo");
 		// current test folder
 		File testrepoFilesystemRoot = new File("tmp/repos-test/");
-		CmsItemLookup testrepoFilesystemLookup = new CmsItemLookupFilesystem(testrepoFilesystemRoot);
-		cmsItemLookupBinder.addBinding(testrepo).toInstance(testrepoFilesystemLookup);
 		
-		// we don't have per-repository binding now so we inject our sample repo as the only lookup
-		bind(CmsItemLookup.class).toInstance(testrepoFilesystemLookup);
-		bind(WorkAreaCmsItemAdditionalOperations.class);
+		// this is the future per-repository configuration
+		cmsItemLookupBinder.addBinding(testrepo).to(CmsItemLookupFilesystem.class);
+		
+		// we don't have per-repository binding now so we set up a single repository config as global
+		bind(CmsRepository.class).toInstance(testrepo);
+		bind(File.class).annotatedWith(Names.named("root")).toInstance(testrepoFilesystemRoot);
+		bind(CmsItemLookup.class).to(CmsItemLookupFilesystem.class);
+		bind(CmsCommit.class).to(CmsCommitFilesystem.class);
 	}
 
 }
