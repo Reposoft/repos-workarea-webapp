@@ -7,9 +7,9 @@ $(document).ready(function(){
 		var list = 'target=';
 		for(var i = 0; i < multipleValues.length; i++){
 			if(i == 0){
-				list += '/tmp/repos-test/' + multipleValues[i];
+				list += '/' + multipleValues[i];
 			}else{
-				list += '&&target=/tmp/repos-test/' + multipleValues[i];
+				list += '&&target=/' + multipleValues[i];
 			}
 		}
 		$('#checkedOut').dialog({
