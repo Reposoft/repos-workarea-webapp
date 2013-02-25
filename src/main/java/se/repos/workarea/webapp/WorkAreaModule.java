@@ -6,15 +6,17 @@ package se.repos.workarea.webapp;
 import java.io.File;
 
 import se.repos.authproxy.ReposCurrentUser;
-import se.repos.backend.file.CmsCommitFilesystem;
 import se.repos.backend.file.CmsItemLookupFilesystem;
 import se.repos.lgr.Lgr;
 import se.repos.lgr.LgrFactory;
+import se.repos.workarea.WorkArea;
 import se.repos.workarea.WorkAreaConfiguration;
 import se.repos.workarea.WorkAreaConfigurationPerUserImpl;
+import se.repos.workarea.dropbox.DropboxTokenStore;
+import se.repos.workarea.dropbox.DropboxTokenStoreTempfile;
+import se.repos.workarea.dropbox.WorkAreaDropBox;
 import se.repos.workarea.rest.WorkAreaResource;
 import se.simonsoft.cms.item.CmsRepository;
-import se.simonsoft.cms.item.commit.CmsCommit;
 import se.simonsoft.cms.item.info.CmsItemLookup;
 
 import com.google.inject.AbstractModule;
@@ -35,24 +37,24 @@ public class WorkAreaModule extends AbstractModule {
 		// global services
 		bind(ReposCurrentUser.class).to(ReposCurrentUserStub.class);
 		bind(WorkAreaConfiguration.class).to(WorkAreaConfigurationPerUserImpl.class);
+		bind(DropboxTokenStore.class).to(DropboxTokenStoreTempfile.class);
+
+		
+		
 		
 		// per repository services
 		MapBinder<CmsRepository, CmsItemLookup> cmsItemLookupBinder
 			= MapBinder.newMapBinder(binder(), CmsRepository.class, CmsItemLookup.class);
 		
 		CmsRepository testrepo = new CmsRepository("http://localhost/svn/testrepo");
-		// original //File testrepoFilesystemRoot = new File("/tmp/repos-testrepo");
-		// current test folder
-		File testrepoFilesystemRoot = new File("tmp/repos-test/");
+
+		File testrepoFilesystem = new File("/tmp/repos-test");
+		cmsItemLookupBinder.addBinding(testrepo).toInstance(new CmsItemLookupFilesystem(testrepo,testrepoFilesystem));
 		
-		// this is the future per-repository configuration
-		cmsItemLookupBinder.addBinding(testrepo).to(CmsItemLookupFilesystem.class);
+		DropboxTokenStore tokenstore = new DropboxTokenStoreTempfile();
+		bind(DropboxTokenStore.class).annotatedWith(Names.named("tokenstore")).toInstance(tokenstore);
 		
-		// we don't have per-repository binding now so we set up a single repository config as global
-		bind(CmsRepository.class).toInstance(testrepo);
-		bind(File.class).annotatedWith(Names.named("root")).toInstance(testrepoFilesystemRoot);
-		bind(CmsItemLookup.class).to(CmsItemLookupFilesystem.class);
-		bind(CmsCommit.class).to(CmsCommitFilesystem.class);
+		
 	}
 
 }
