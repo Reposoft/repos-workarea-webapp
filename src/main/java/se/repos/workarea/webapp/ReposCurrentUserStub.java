@@ -11,10 +11,13 @@ import se.repos.authproxy.ReposCurrentUser;
  * Produces usernames as if there was a login system.
  */
 public class ReposCurrentUserStub implements ReposCurrentUser {
+	
+	private int nameVariable = 0;
 
 	@Override
 	public String getUsername() {
-		return "singleuser";
+		nameVariable++;
+		return "user" + nameVariable;
 	}
 	
 	@Override
