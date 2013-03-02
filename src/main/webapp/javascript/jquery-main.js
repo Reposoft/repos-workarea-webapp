@@ -21,7 +21,7 @@ $(document).ready(function(){
 				var folderName = $('#my-text').val();
 				if(folderName === "")
 					folderName = dateString;
-				$.post("http://localhost:8088/repos/work/"+ folderName +"/checkout?"+ list);
+				$.post("http://localhost:8088/repos/work/"+ folderName +"/checkout?"+ list,function(responseText){alert(responseText)});
 				$(this).dialog('close');
 			},
         	'Cancel': function() {
