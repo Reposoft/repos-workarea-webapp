@@ -16,6 +16,7 @@ import se.repos.workarea.dropbox.DropboxTokenStore;
 import se.repos.workarea.dropbox.DropboxTokenStoreTempfile;
 import se.repos.workarea.dropbox.WorkAreaDropBox;
 import se.repos.workarea.rest.WorkAreaResource;
+import se.repos.workarea.webapp.staffantest.DropboxTokenStoreMemory;
 import se.simonsoft.cms.item.CmsRepository;
 import se.simonsoft.cms.item.info.CmsItemLookup;
 
@@ -37,8 +38,8 @@ public class WorkAreaModule extends AbstractModule {
 		// global services
 		bind(ReposCurrentUser.class).to(ReposCurrentUserStub.class);
 		bind(WorkAreaConfiguration.class).to(WorkAreaConfigurationPerUserImpl.class);
-		bind(DropboxTokenStore.class).to(DropboxTokenStoreTempfile.class);
-
+		//bind(DropboxTokenStore.class).to(DropboxTokenStoreTempfile.class);
+		bind(DropboxTokenStore.class).to(DropboxTokenStoreMemory.class);
 		
 		
 		
