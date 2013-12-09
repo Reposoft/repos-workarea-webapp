@@ -18,17 +18,12 @@ public class WorkAreaStandaloneApplication extends Application {
 
     public static final Lgr logger = LgrFactory.getLogger();
 
-    private static Injector configure() {
-        return Guice.createInjector(new WorkAreaModule());
-    }
-
     @Override
     public Set<Object> getSingletons() {
         logger.info("Starting application");
-        Injector context = WorkAreaStandaloneApplication.configure();
         Set<Object> resources = new HashSet<>();
-        // TODO Add resources.
-        // resources.add(context.getInstance(WorkAreaResource.class));
+        Injector context = Guice.createInjector(new WorkAreaModule());
+        resources.add(context.getInstance(WorkAreaResource.class));
         return resources;
     }
 
