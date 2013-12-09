@@ -16,6 +16,8 @@ import se.repos.workarea.WorkAreaConfiguration;
 import se.simonsoft.cms.item.CmsRepository;
 
 @Path("/workarea")
+// TODO Implement the methods stubs in this class, remove warning suppression.
+@SuppressWarnings("all")
 public class WorkAreaResource {
     private WorkAreaConfiguration workAreaConfiguration;
     private CmsRepository repository;
@@ -31,8 +33,11 @@ public class WorkAreaResource {
     }
 
     @POST
-    @Path("{repo}/upload")
+    @Path("{folderName}/upload")
     @Produces(MediaType.APPLICATION_JSON)
+    /**
+     * @see {@link WorkArea.uploadItems}
+     */
     public Response uploadItems(@PathParam("folderName") String folderName,
             @QueryParam("item") List<String> items) {
         // TODO Method stub.
