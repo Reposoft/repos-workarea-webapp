@@ -21,10 +21,9 @@ public class WorkAreaStandaloneApplication extends Application {
     @Override
     public Set<Object> getSingletons() {
         logger.info("Starting application");
-        Set<Object> resources = new HashSet<>();
+        Set<Object> resources = new HashSet<Object>();
         Injector context = Guice.createInjector(new WorkAreaModule());
         resources.add(context.getInstance(WorkAreaResource.class));
         return resources;
     }
-
 }
