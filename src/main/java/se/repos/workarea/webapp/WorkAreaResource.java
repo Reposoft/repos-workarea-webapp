@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) Repos Mjukvara AB
+ */
 package se.repos.workarea.webapp;
 
 import java.util.List;
